@@ -14,3 +14,18 @@ describe('Index page test', () => {
       });
   });
 });
+
+describe('Test page test', () => {
+  it('gets test page result', done => {
+    server
+      .get(`${BASE_URL}/test`)
+      .expect(200)
+      .end((err, res) => {
+        expect(res.status).to.equal(200);
+        expect(res.body.message).to.equal(
+          'about this'
+        );
+        done();
+      });
+  });
+});
