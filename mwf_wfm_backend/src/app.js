@@ -1,7 +1,8 @@
 import logger from 'morgan';
 import express from 'express';
 import cookieParser from 'cookie-parser';
-import indexRouter from './routes/index';
+import indexRouter from './routes/index.js';
+
 const app = express();
 
 app.use(logger('dev'));
