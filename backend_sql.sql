@@ -20,7 +20,8 @@ CREATE TABLE IF NOT EXISTS Branch (
 
 CREATE TABLE IF NOT EXISTS TaskType (
 	name VARCHAR(128) PRIMARY KEY,
-	description VARCHAR(256),
+	defaultDescription TEXT,
+	defaultTaskInstruction VARCHAR(256),
 	priority ENUM('low', 'medium', 'high', 'critical'),
 	achieved BOOLEAN,
 	createdOn DATETIME,
@@ -35,6 +36,7 @@ CREATE TABLE IF NOT EXISTS Task (
 	branch VARCHAR(128) not null, -- -> Branch
 	label VARCHAR(256),
 	description TEXT,
+	taskInstruction VARCHAR(256),
 	startDate DATETIME,
 	endDate DATETIME,
 	status ENUM('created', 'planned', 'started', 'finished', 'aborted'),
@@ -54,6 +56,9 @@ CREATE TABLE IF NOT EXISTS Task (
 ALTER TABLE TaskType ADD CONSTRAINT FK_TaskType_createdBy_login_User FOREIGN KEY (createdBy) REFERENCES User (login) ON UPDATE CASCADE ON DELETE NO ACTION;
 ALTER TABLE TaskType ADD CONSTRAINT FK_TaskType_updatedBy_login_User FOREIGN KEY (updatedBy) REFERENCES User (login) ON UPDATE CASCADE ON DELETE NO ACTION;
 
+ALTER TABLE User ADD CONSTRAINT FK_User_createdBy_login_User FOREIGN KEY (createdBy) REFERENCES User (login) ON UPDATE CASCADE ON DELETE NO ACTION;
+ALTER TABLE User ADD CONSTRAINT FK_User_updatedBy_login_User FOREIGN KEY (updatedBy) REFERENCES User (login) ON UPDATE CASCADE ON DELETE NO ACTION;
+
 ALTER TABLE Branch ADD CONSTRAINT FK_Branch_createdBy_login_User FOREIGN KEY (createdBy) REFERENCES User (login) ON UPDATE CASCADE ON DELETE NO ACTION;
 ALTER TABLE Branch ADD CONSTRAINT FK_Branch_updatedBy_login_User FOREIGN KEY (updatedBy) REFERENCES User (login) ON UPDATE CASCADE ON DELETE NO ACTION;
 
@@ -65,4 +70,4 @@ ALTER TABLE Task ADD CONSTRAINT FK_Task_assignedTo_login_User FOREIGN KEY (assig
 
 ALTER TABLE Task ADD CONSTRAINT FK_Task_taskType_name_TaskType FOREIGN KEY (taskType) REFERENCES TaskType (name) ON UPDATE CASCADE ON DELETE NO ACTION;
 
-ALTER TABLE Task ADD CONSTRAINT FK_Task_taskType_name_Branch FOREIGN KEY (taskType) REFERENCES Branch (name) ON UPDATE CASCADE ON DELETE NO ACTION;
+ALTER TABLE Task ADD CONSTRAINT FK_Task_taskType_name_Branch FOREIGN KEY (branch) REFERENCES Branch (name) ON UPDATE CASCADE ON DELETE NO ACTION;
