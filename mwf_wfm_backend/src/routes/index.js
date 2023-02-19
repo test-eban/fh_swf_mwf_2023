@@ -1,10 +1,21 @@
 import express from 'express';
-import { indexPage, testPage, messagesPage } from '../controllers/index.js';
+import { taskPage, taskSoloPage, taskDelete, taskTypePage, taskTypeSoloPage, taskTypeDelete, branchPage, branchSoloPage, branchDelete } from '../controllers/index.js';
 
-const indexRouter = express.Router();
+const router = express.Router();
 
-indexRouter.get('/', indexPage);
-indexRouter.get('/test', testPage);
-indexRouter.get('/messages', messagesPage);
+// tasks
+router.get('/tasks', taskPage);
+router.get('/tasks/:id', taskSoloPage);
+router.delete('/tasks/:id', taskDelete);
 
-export default indexRouter;
+// tasktypes
+router.get('/tasktypes', taskTypePage);
+router.get('/tasktypes/:id', taskTypeSoloPage);
+router.delete('/tasktypes/:id', taskTypeDelete);
+
+// branches
+router.get('/branches', branchPage);
+router.get('/branches/:id', branchSoloPage);
+router.delete('/branches/:id', branchDelete);
+
+export default router;
