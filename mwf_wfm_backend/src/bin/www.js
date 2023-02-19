@@ -5,6 +5,7 @@
 import debug from 'debug';
 import http from 'http';
 import app from '../app.js';
+import { port as defaultPort } from '../settings.js';
 /**
  * Normalize a port into a number, string, or false.
  */
@@ -24,7 +25,7 @@ const normalizePort = val => {
 /**
  * Get port from environment and store in Express.
  */
-const port = normalizePort(process.env.PORT || '3001');
+const port = normalizePort(defaultPort || '3001');
 app.set('port', port);
 
 /**

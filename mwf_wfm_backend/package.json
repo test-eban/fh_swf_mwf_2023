@@ -8,7 +8,6 @@
     "start": "node ./build/bin/www",
     "startdev": "nodemon --exec babel-node ./src/bin/www",
     "lint": "./node_modules/.bin/eslint ./src",
-    "test": "nyc --reporter=html --reporter=text --reporter=lcov mocha -r @babel/register",
     "runQuery": "babel-node ./src/util/runQuery.js"
   },
   "dependencies": {
@@ -33,7 +32,6 @@
     "mocha": "^10.2.0",
     "morgan": "~1.9.1",
     "nodemon": "^2.0.20",
-    "nyc": "^15.1.0",
     "pug": "^3.0.2",
     "sinon-chai": "^3.7.0",
     "supertest": "^6.3.3"
