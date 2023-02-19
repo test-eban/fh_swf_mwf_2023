@@ -1,15 +1,17 @@
 CREATE TABLE IF NOT EXISTS User (
-  login VARCHAR(64) PRIMARY KEY,
-  name VARCHAR(64) DEFAULT '',
-  password VARCHAR(128),
-  createdOn DATETIME,
-  createdBy VARCHAR(64), -- -> User
-  updatedOn DATETIME,
-  updatedBy VARCHAR(64) -- -> User
+	id SERIAL PRIMARY KEY,
+	login VARCHAR(64) UNIQUE,
+	name VARCHAR(64) DEFAULT '',
+	password VARCHAR(128),
+	createdOn DATETIME,
+	createdBy VARCHAR(64), -- -> User
+	updatedOn DATETIME,
+	updatedBy VARCHAR(64) -- -> User
 );
 
 CREATE TABLE IF NOT EXISTS Branch (
-	name VARCHAR(128) PRIMARY KEY,
+	id SERIAL PRIMARY KEY,
+	name VARCHAR(128) UNIQUE,
 	description VARCHAR(256),
 	achieved BOOLEAN,
 	createdOn DATETIME,
@@ -19,7 +21,8 @@ CREATE TABLE IF NOT EXISTS Branch (
 );
 
 CREATE TABLE IF NOT EXISTS TaskType (
-	name VARCHAR(128) PRIMARY KEY,
+	id SERIAL PRIMARY KEY,
+	name VARCHAR(128) UNIQUE,
 	defaultDescription TEXT,
 	defaultTaskInstruction VARCHAR(256),
 	priority ENUM('low', 'medium', 'high', 'critical'),
@@ -31,7 +34,7 @@ CREATE TABLE IF NOT EXISTS TaskType (
 );
 
 CREATE TABLE IF NOT EXISTS Task (
-	uid SERIAL PRIMARY KEY,
+	id SERIAL PRIMARY KEY,
 	taskType VARCHAR(128) not null, -- -> Type
 	branch VARCHAR(128) not null, -- -> Branch
 	label VARCHAR(256),
