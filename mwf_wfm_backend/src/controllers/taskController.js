@@ -13,11 +13,11 @@ export const taskPage = async (req, res) => {
         const data = await tasksModel.select('*');
         console.log(data.rows);
         res.status(200).json({
-            messages: data
+            task: data
         });
     } catch (err) {
         res.status(200).json({
-            messages: err.stack
+            task: err.stack
         });
     }
 };
@@ -27,11 +27,11 @@ export const taskSoloPage = async (req, res) => {
         const data = await tasksModel.selectById('*', id);
         console.log(data.rows);
         res.status(200).json({
-            messages: data
+            task: data
         });
     } catch (err) {
         res.status(200).json({
-            messages: err.stack
+            task: err.stack
         });
     }
 };
@@ -41,11 +41,11 @@ export const taskDelete = async (req, res) => {
         const data = await tasksModel.deleteById(id);
         console.log(data.rows);
         res.status(200).json({
-            messages: data
+            task: data
         });
     } catch (err) {
         res.status(200).json({
-            messages: err.stack
+            task: err.stack
         });
     }
 };

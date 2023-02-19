@@ -6,11 +6,11 @@ export const branchPage = async (req, res) => {
         const data = await branchesModel.select('*');
         console.log(data.rows);
         res.status(200).json({
-            messages: data
+            branch: data
         });
     } catch (err) {
         res.status(200).json({
-            messages: err.stack
+            branch: err.stack
         });
     }
 };
@@ -20,11 +20,11 @@ export const branchSoloPage = async (req, res) => {
         const data = await branchesModel.selectById('*', id);
         console.log(data.rows);
         res.status(200).json({
-            messages: data
+            branch: data
         });
     } catch (err) {
         res.status(200).json({
-            messages: err.stack
+            branch: err.stack
         });
     }
 };
@@ -34,11 +34,11 @@ export const branchDelete = async (req, res) => {
         const data = await branchesModel.deleteById(id);
         console.log(data.rows);
         res.status(200).json({
-            messages: data
+            branch: data
         });
     } catch (err) {
         res.status(200).json({
-            messages: err.stack
+            branch: err.stack
         });
     }
 };

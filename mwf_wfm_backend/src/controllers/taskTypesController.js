@@ -6,11 +6,11 @@ export const taskTypePage = async (req, res) => {
         const data = await taskTypeModel.select('*');
         console.log(data.rows);
         res.status(200).json({
-            messages: data
+            taskType: data
         });
     } catch (err) {
         res.status(200).json({
-            messages: err.stack
+            taskType: err.stack
         });
     }
 };
@@ -20,11 +20,11 @@ export const taskTypeSoloPage = async (req, res) => {
         const data = await taskTypeModel.selectById('*', id);
         console.log(data.rows);
         res.status(200).json({
-            messages: data
+            taskType: data
         });
     } catch (err) {
         res.status(200).json({
-            messages: err.stack
+            taskType: err.stack
         });
     }
 };
@@ -34,11 +34,11 @@ export const taskTypeDelete = async (req, res) => {
         const data = await taskTypeModel.deleteById(id);
         console.log(data.rows);
         res.status(200).json({
-            messages: data
+            taskType: data
         });
     } catch (err) {
         res.status(200).json({
-            messages: err.stack
+            taskType: err.stack
         });
     }
 };
