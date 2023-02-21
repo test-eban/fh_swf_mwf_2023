@@ -10,4 +10,7 @@ export default {
         console.log(res);
         return res.data;
     }
+    // async setTaskState(taskId, previousState, targetState) {
+    //     let res = await axios.put
+    // }
 }
