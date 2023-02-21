@@ -12,13 +12,12 @@ import {
     insertValues
 } from './queries.js';
 
-export const executeQueryArray = async arr => new Promise(resolve => {
-    const stop = arr.length;
-    arr.forEach(async (q, index) => {
-        pool.query(q);
-        if (index + 1 === stop) resolve();
-    });
-});
+export const executeQueryArray = async arr => {
+    for (const q of arr) {
+        await pool.query(q);
+        console.log(q);
+    }
+};
 
 export const dropTables = () => executeQueryArray([dropTaskTable, dropBranchTable, dropTaskTypeTable, dropUsersTable]);
 export const createTables = () => executeQueryArray([createBranchesTable, createTaskTable, createTaskTypeTable, createUsersTable]);
