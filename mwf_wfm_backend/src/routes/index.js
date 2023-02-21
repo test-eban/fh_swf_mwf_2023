@@ -1,5 +1,5 @@
 import express from 'express';
-import { taskPage, taskSoloPage, taskDelete, taskTypePage, taskTypeSoloPage, taskTypeDelete, branchPage, branchSoloPage, branchDelete, branchSetArchieve, taskTypeSetArchieve, taskSetArchieve, taskUpdateRecord } from '../controllers/index.js';
+import { taskPage, taskSoloPage, taskDelete, taskTypePage, taskTypeSoloPage, taskTypeDelete, branchPage, branchSoloPage, branchDelete, branchSetArchieve, taskTypeSetArchieve, taskSetArchieve, taskUpdateRecord, taskTypeUpdateRecord, branchUpdateRecord } from '../controllers/index.js';
 
 const router = express.Router();
 
@@ -14,12 +14,14 @@ router.delete('/tasks/:id', taskDelete);
 router.get('/tasktypes', taskTypePage);
 router.get('/tasktypes/:id', taskTypeSoloPage);
 router.post('/tasktypes/a/:id/:state', taskTypeSetArchieve);
+router.post('/tasktypes/update/:id', taskTypeUpdateRecord);
 router.delete('/tasktypes/:id', taskTypeDelete);
 
 // branches
 router.get('/branches', branchPage);
 router.get('/branches/:id', branchSoloPage);
 router.post('/branches/a/:id/:state', branchSetArchieve);
+router.post('/branches/update/:id', branchUpdateRecord);
 router.delete('/branches/:id', branchDelete);
 
 export default router;
