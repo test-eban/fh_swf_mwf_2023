@@ -1,15 +1,18 @@
 <template>
   <div id="app">
+    <baseTable />
     <nav />
     <router-view />
 </div>
 </template>
 <script>
 import Nav from './components/partials/Nav.vue';
+import baseTable from './components/baseTable.vue';
 export default {
   name: 'app',
   components: {
     Nav,
+    baseTable,
   },
 };
 </script>
