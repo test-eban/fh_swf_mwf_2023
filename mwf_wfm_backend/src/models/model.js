@@ -36,23 +36,37 @@ class Model {
     }
 
     async setArchievedState(id, state) {
-        const value = (state % 2 === 1);
+        const value = (state !== 0);
         const query = `UPDATE ${this.table} SET archived = ? WHERE id = ?`;
         this.setUpdatedOn(id);
         return this.pool.query(query, [ value, id ]);
     }
 
     async setUpdatedOn(id) {
-        const value = (new Date()).toISOString().slice(0, 19).replace(/-/g, "-").replace("T", " ");
+        const value = (new Date())
+            .toISOString()
+            .slice(0, 19)
+            .replace(/-/g, '-')
+            .replace('T', ' ');
         const query = `UPDATE ${this.table} SET updatedOn = ? WHERE id = ?`;
-        return this.pool.query(query, [value, id]);
+        return this.pool.query(query, [ value, id ]);
     }
 
     async updateRecord(id, sqlParams, sqlValues) {
-        const sqlQuery = `UPDATE ${this.table} SET ${sqlParams.join(", ")} WHERE id = ?`;
+        const sqlQuery = `UPDATE ${this.table} SET ${sqlParams.join(', ')} WHERE id = ?`;
         sqlValues.push(id);
 
         this.setUpdatedOn(id);
+
+        return this.pool.query(sqlQuery, sqlValues);
+    }
+
+    async insertRecord(sqlParams, sqlValues) {
+        const placeholderArray = [];
+        for (let index = 0; index < sqlParams.length; index += 1) {
+            placeholderArray.push('?');
+        }
+        const sqlQuery = `INSERT INTO ${this.table} (${sqlParams.join(', ')}) VALUES ${placeholderArray.join(', ')}`;
 
         return this.pool.query(sqlQuery, sqlValues);
     }

@@ -1,4 +1,5 @@
 import Model from '../models/model.js';
+import { pool } from '../models/pool.js';
 
 const taskTypeModel = new Model('TaskType');
 export const taskTypePage = async (req, res) => {
@@ -67,7 +68,8 @@ export const taskTypeUpdateRecord = async (req, res) => {
         const escapedKey = pool.escapeId(key);
         sqlParams.push(`${escapedKey} = ?`);
         sqlValues.push(value);
-        // check if the ids are within the allowed-list that is specifically designed for each type each
+        // check if the ids are within the allowed-list
+        // that is specifically designed for each type each
     });
     try {
         let data = '';
@@ -76,11 +78,11 @@ export const taskTypeUpdateRecord = async (req, res) => {
         }
 
         res.status(200).json({
-            branch: data
+            tasktype: data
         });
     } catch (error) {
         res.status(200).json({
-            branch: error.stack
+            tasktype: error.stack
         });
     }
-}
+};

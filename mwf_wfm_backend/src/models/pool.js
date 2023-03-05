@@ -3,8 +3,12 @@ import {
 } from 'mariadb';
 import dotenv from 'dotenv';
 import {
-    dbHost, dbUser, dbPassword, dbDatabase
+    dbHost,
+    dbUser,
+    dbPassword,
+    dbDatabase
 } from '../settings.js';
+
 dotenv.config();
 
 export const pool = createPool({

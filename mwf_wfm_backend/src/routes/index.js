@@ -1,27 +1,31 @@
 import express from 'express';
-import { taskPage, taskSoloPage, taskDelete, taskTypePage, taskTypeSoloPage, taskTypeDelete, branchPage, branchSoloPage, branchDelete, branchSetArchieve, taskTypeSetArchieve, taskSetArchieve, taskUpdateRecord, taskTypeUpdateRecord, branchUpdateRecord } from '../controllers/index.js';
+import {
+    taskPage, taskSoloPage, taskDelete, taskInsertRecord, taskUpdateRecord,
+    taskTypePage, taskTypeSoloPage, taskTypeDelete, taskTypeSetArchieve, taskTypeUpdateRecord,
+    branchPage, branchSoloPage, branchDelete, branchSetArchieve, branchUpdateRecord
+} from '../controllers/index.js';
 
 const router = express.Router();
 
 // tasks
 router.get('/tasks', taskPage);
 router.get('/tasks/:id', taskSoloPage);
-router.post('/tasks/a/:id/:state', taskSetArchieve);
-router.post('/tasks/update/:id', taskUpdateRecord);
-router.delete('/tasks/:id', taskDelete);
+router.post('/tasks/:id/update', taskUpdateRecord);
+router.post('/tasks/insert', taskInsertRecord);
+router.delete('/tasks/:id/delete', taskDelete);
 
 // tasktypes
 router.get('/tasktypes', taskTypePage);
 router.get('/tasktypes/:id', taskTypeSoloPage);
-router.post('/tasktypes/a/:id/:state', taskTypeSetArchieve);
-router.post('/tasktypes/update/:id', taskTypeUpdateRecord);
-router.delete('/tasktypes/:id', taskTypeDelete);
+router.post('/tasktypes/:id/a/:state', taskTypeSetArchieve);
+router.post('/tasktypes/:id/update', taskTypeUpdateRecord);
+router.delete('/tasktypes/:id/delete', taskTypeDelete);
 
 // branches
 router.get('/branches', branchPage);
 router.get('/branches/:id', branchSoloPage);
-router.post('/branches/a/:id/:state', branchSetArchieve);
-router.post('/branches/update/:id', branchUpdateRecord);
-router.delete('/branches/:id', branchDelete);
+router.post('/branches/:id/a/:state', branchSetArchieve);
+router.post('/branches/:id/update', branchUpdateRecord);
+router.delete('/branches/:id/delete', branchDelete);
 
 export default router;
