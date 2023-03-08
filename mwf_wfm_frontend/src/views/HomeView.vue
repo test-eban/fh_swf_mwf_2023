@@ -3,27 +3,19 @@
     <section class="hero is-dark">
       <div class="hero-body">
         <div class="container">
-          <h1 class="title">Welcome to the Animal Rescue League</h1>
-          <h2 class="subtitle">
-            Make sure you check out our upcoming events below
-          </h2>
-          <div class="button-block">
-            <button class="button is-xl is-dark">
-              Sign Up to Browse Events
-            </button>
-          </div>
+          <h1 class="title">Workforcemanagementsystem</h1>
         </div>
       </div>
     </section>
-    <EventsList />
+    <TaskTable />
   </div>
 </template>
 <script>
-import EventsList from '../components/EventsList';
+import TaskTable from '../components/baseTable.vue';
 export default {
   name: 'home',
   components: {
-    EventsList,
+    TaskTable,
   },
 };
 </script>

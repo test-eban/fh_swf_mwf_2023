@@ -32,8 +32,8 @@ export default {
   methods: {
     async getEventsData() {
       try {
-        const results = await TaskService.getTasks();
-        this.events = results;
+        // const results = await TaskService.getTasks();
+        // this.events = results;
       } catch (error) {
         console.log(error);
       }
