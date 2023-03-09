@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "@popperjs/core": "^2.11.6",
+    "bootstrap": "^5.2.3",
+    "bootstrap-vue-next": "^0.7.3"
+  },
+  "devDependencies": {
+    "unplugin-vue-components": "^0.24.1"
+  }
+}
