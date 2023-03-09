@@ -1,110 +1,54 @@
 <template>
   <div>
-    <vue-good-table
-      :columns="columns"
-      :rows="rows"
-      v-on:row-click="onRowClick" 
-      v-on:cell-click="onCellClick" />
-    </div>
+    <b-table striped hover :items="items">
+      <template v-slot:cell(column1)="data">
+        <input type="text" v-model="data.item.first_name" />
+      </template>
+      <template v-slot:cell(column2)="data">
+        <input type="text" v-model="data.item.last_name" />
+      </template>
+      <template v-slot:cell(column3)="data">
+        <input type="text" v-model="data.item.age" />
+      </template>
+      <template v-slot:cell(actions)="data">
+        <div>
+          <b-button variant="danger" @click="deleteRow(data.index)">
+            Delete
+          </b-button>
+          <b-button variant="success" @click="saveRow(data.index)">
+            Save
+          </b-button>
+        </div>
+      </template>
+    </b-table>
+  </div>
 </template>
 
 <script>
-
-// import the styles
-import 'vue-good-table/dist/vue-good-table.css'
-import { VueGoodTable } from 'vue-good-table-next';
-import TaskService from '@/services/TaskService';
-
+import { BTable, BButton } from "bootstrap-vue-next";
 export default {
-  name: 'taskTable',
-  // add to component
   components: {
-    VueGoodTable,
+    BTable,
+    BButton,
   },
   data() {
     return {
-      columns: [
-        {
-          label: 'Tasktyp',
-          field: 'taskType',
-        },
-        {
-          label: 'Sparte',
-          field: 'branch',
-        },
-        {
-          label: 'Bezeichnung',
-          field: 'label',
-          // type: 'date',
-          // dateInputFormat: 'yyyy-MM-dd',
-          // dateOutputFormat: 'MMM do yy',
-        },
-        {
-          label: 'Beschreibung',
-          field: 'description',
-        },
-        {
-          label: 'Aufgabenbeschreibung',
-          field: 'taskInstruction',
-        },
-        {
-          label: 'Startdatum',
-          field: 'startDate',
-          type: 'date',
-          dateInputFormat: 'yyy-MM-dd',
-          dateOutputFormat: 'yyy-MM-dd',
-        },
-        {
-          label: 'Enddatum',
-          field: 'endDate', 
-          type: 'date',
-          dateInputFormat: 'yyy-MM-dd',
-          dateOutputFormat: 'yyy-MM-dd',
-        },
-        {
-          label: 'Status',
-          field: 'status',
-        },
-        {
-          label: 'Abbruchbemerkung',
-          field: 'abortingRemark',
-        },
-        {
-          label: 'Abschlussbemerkung',
-          field: 'finishingRemark',
-        },
-        {
-          label: 'Erstellt am',
-          field: 'createdOn',
-        },
+      items: [
+        { age: 40, first_name: "Dickerson", last_name: "Macdonald" },
+        { age: 21, first_name: "Larsen", last_name: "Shaw" },
+        { age: 89, first_name: "Geneva", last_name: "Wilson" },
+        { age: 38, first_name: "Jami", last_name: "Carney" },
       ],
-      rows: [],
     };
   },
-  created() {
-    this.getTasksData(); // call getTasksData() when the component is created
-  },
   methods: {
-    onRowClick(params) {
-      console.log("RowClick");
-      // params.row - row object 
-      // params.pageIndex - index of this row on the current page.
-      // params.selected - if selection is enabled this argument 
-      // indicates selected or not
-      // params.event - click event
+    deleteRow(index) {
+      this.items.splice(index, 1);
     },
-    onCellClick(params) {
-      console.log("CellClick");
+    saveRow(index) {
+      // implement the save functionality here
+      console.log("Saved row at index:", index);
     },
-    async getTasksData() {
-        try {
-          const results = await TaskService.getTasks();
-          this.rows = results['task'];
-          console.log = this.rows;
-        } catch (error) {
-          console.log(error);
-        }
-      },
-    }
+  },
 };
 </script>
