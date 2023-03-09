@@ -13,8 +13,6 @@
     "core-js": "^3.8.3",
     "vue": "^3.2.47",
     "vue-cli": "^2.9.6",
-    "vue-good-table": "^2.21.11",
-    "vue-good-table-next": "^0.2.1",
     "vue-router": "^4.0.3"
   },
   "devDependencies": {
@@ -29,7 +27,8 @@
     "lint-staged": "^11.1.2",
     "sass": "^1.32.7",
     "sass-loader": "^12.0.0",
-    "vue-template-compiler": "^2.7.14"
+    "vue-template-compiler": "^2.7.14",
+    "vuetify": "^3.1.8"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
