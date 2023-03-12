@@ -8,7 +8,7 @@
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ props }">
             <v-btn color="primary" dark class="mb-2" v-bind="props">
-              New Item
+              Neue Aufgabe
             </v-btn>
           </template>
           <v-card>
@@ -26,29 +26,29 @@
                     <v-text-field v-model="editedItem.description" label="Beschreibung"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="12" md="6">
-                    <v-text-field v-model="editedItem.taskType" label="Tasktyp"></v-text-field>
+                    <v-select
+                      v-model="editedItem.taskType"
+                      :items="items.taskTypes"
+                      label="Aufgabentyp"
+                      variant="solo"
+                    ></v-select>
                   </v-col>
                   <v-col cols="12" sm="12" md="6">
-                    <v-text-field v-model="editedItem.branch" label="Sparte"></v-text-field>
+                    <v-select
+                      v-model="editedItem.branch"
+                      :items="items.branches"
+                      label="Sparte"
+                      variant="solo"
+                    ></v-select>
                   </v-col>
                   <v-col cols="12" sm="12" md="6">
                       <v-text-field v-model="editedItem.taskInstruction" label="Arbeitsanweisung"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="12" md="6">
-                      <!--v-text-field v-model="editedItem.startDate" label="Start"></v-text-field-->
-                      <v-date-picker v-model="editedItem.startDate" no-title scrollable>
-                        <v-spacer></v-spacer>
-                        <v-btn flat color="primary" @click="menu = false">Cancel</v-btn>
-                        <v-btn flat color="primary" @click="$refs.menu.save(date)">OK</v-btn>
-                      </v-date-picker>
+                      <v-text-field v-model="editedItem.startDate" label="Startdatum" type="datetime-local"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="12" md="6">
-                      <v-text-field v-model="editedItem.branch" label="Sparte"></v-text-field>
-                      <v-combobox
-                        label="Combobox"
-                        :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']"
-                        variant="solo"
-                      ></v-combobox>
+                      <v-text-field v-model="editedItem.endDate" label="Startdatum" type="datetime-local"></v-text-field>
                   </v-col>
                 </v-row>
               </v-container>
@@ -96,7 +96,11 @@
 
 <script>
 import { VDataTable } from 'vuetify/labs/VDataTable'
-import TaskService from '@/services/TaskService';
+import TaskService from '@/services/TaskService.js';
+import TaskTypeService from '@/services/TaskTypeService';
+import BranchService from '@/services/BranchService';
+import moment from 'moment';
+
 
 export default {
   components: { VDataTable },
@@ -105,17 +109,20 @@ export default {
     dialogDelete: false,
     headers: [
       {
+        title: 'Id',
+        key: 'id',
+        align: 'start',
+      },
+      {
         title: 'Bezeichnung',
         key: 'label',
-        align: 'start',
-        sortable: false,
       },
       {
         title: 'Beschreibung',
         key: 'description',
       },
       {
-        title: 'Tasktyp',
+        title: 'Aufgabentyp',
         key: 'taskType',
       },
       {
@@ -161,6 +168,7 @@ export default {
     tasks: [],
     editedIndex: -1,
     editedItem: {
+      id: '',
       label: '',
       description: '',
       taskType: null,
@@ -168,7 +176,9 @@ export default {
       taskInstruction: '',
       startDate: new Date(),
       endDate: new Date(),
-      status: 0,
+      status: 'planned',
+      createdBy: 'admin',
+      updatedBy: 'admin',
     },
     defaultItem: {
       label: '',
@@ -178,8 +188,14 @@ export default {
       taskInstruction: '',
       startDate: new Date(),
       endDate: new Date(),
-      status: 0,
+      status: 'planned',
+      createdBy: 'admin',
+      updatedBy: 'admin',
     },
+    items: {
+      branches: [],
+      taskTypes: [],
+    }
   }),
 
   computed: {
@@ -197,8 +213,10 @@ export default {
     },
   },
 
-  created() {
-    this.getTasksData()
+  async created() {
+    this.getTasksData();
+    this.getTaskTypeData();
+    await this.getBranchesData();
   },
 
   methods: {
@@ -214,46 +232,78 @@ export default {
       }
     },
 
+      async getTaskTypeData() {
+      try {
+        this.items.branches = [];
+        const results = await TaskTypeService.getTaskTypes();
+        results['taskType'].forEach(el => {
+          this.items.taskTypes.push(el.name.toString());
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+      async getBranchesData() {
+      try {
+        this.items.branches = [];
+        const results = await BranchService.getBranches();
+        results['branch'].forEach(el => {
+          this.items.branches.push(el.name.toString());
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
     editItem(item) {
-      this.editedIndex = this.tasks.indexOf(item)
-      this.editedItem = Object.assign({}, item)
-      this.dialog = true
+      this.editedIndex = this.tasks.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialog = true;
     },
 
     deleteItem(item) {
-      this.editedIndex = this.tasks.indexOf(item)
-      this.editedItem = Object.assign({}, item)
-      this.dialogDelete = true
+      this.editedIndex = this.tasks.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialogDelete = true;
     },
 
     deleteItemConfirm() {
-      this.tasks.splice(this.editedIndex, 1)
-      this.closeDelete()
+      TaskService.deleteTask(this.editedItem.id);
+      this.tasks.splice(this.editedIndex, 1);
+      this.closeDelete();
     },
 
     close() {
-      this.dialog = false
+      this.dialog = false;
       this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem)
-        this.editedIndex = -1
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
       })
     },
 
     closeDelete() {
-      this.dialogDelete = false
+      this.dialogDelete = false;
       this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem)
-        this.editedIndex = -1
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
       })
     },
 
     save() {
-      if (this.editedIndex > -1) {
+      let lTempObject = this.editedItem;
+      lTempObject.startDate = moment(this.editedItem.startDate).format('YYYY-MM-DD hh:mm:ss') // moment.js
+    
+      lTempObject.endDate = moment(this.editedItem.endDate).format('YYYY-MM-DD hh:mm:ss') // moment.js
+
+      if (this.editedIndex > -1) { // === updated object
         Object.assign(this.tasks[this.editedIndex], this.editedItem)
-      } else {
-        this.tasks.push(this.editedItem)
+        // TaskService.updateTask(this.editedItem);
+      } else { // === new object
+        this.tasks.push(this.editedItem);
+        TaskService.createTask(lTempObject);
       }
-      this.close()
+      this.close();
     },
   },
 }
