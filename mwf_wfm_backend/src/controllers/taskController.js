@@ -79,23 +79,29 @@ export const taskInsertRecord = async (req, res) => {
     const sqlParams = [];
     const sqlValues = [];
 
+    console.log("1");
+    console.log(req.body);
     Object.entries(req.body).forEach(([key, value]) => {
-        const escapedKey = pool.escapeId(key);
-        sqlParams.push(`${escapedKey}`);
-        sqlValues.push(value);
-        // check if the ids are within the allowed-list
-        // that is specifically designed for each type each
+        if (key !== 'id') { // filter out id
+            console.log("inner foreach - if");
+            const escapedKey = pool.escapeId(key);
+            sqlParams.push(`${escapedKey}`);
+            sqlValues.push(value);
+        }
     });
     try {
+        console.log("inner try")
+        console.log("sqlValues" + sqlValues)
         let data = '';
         if (sqlValues.length > 0 && sqlParams !== undefined) {
-            data = await taskModel.updateRecord(id, sqlParams, sqlValues);
+            data = await taskModel.insertRecord(sqlParams, sqlValues);
+            console.log(data);
         }
-
         res.status(200).json({
             task: data
         });
     } catch (error) {
+        console.log("Error while inserting Task:" + error);
         res.status(200).json({
             task: error.stack
         });

@@ -55,6 +55,7 @@ class Model {
     async updateRecord(id, sqlParams, sqlValues) {
         const sqlQuery = `UPDATE ${this.table} SET ${sqlParams.join(', ')} WHERE id = ?`;
         sqlValues.push(id);
+        console.log(sqlQuery);
 
         this.setUpdatedOn(id);
 
@@ -66,7 +67,9 @@ class Model {
         for (let index = 0; index < sqlParams.length; index += 1) {
             placeholderArray.push('?');
         }
-        const sqlQuery = `INSERT INTO ${this.table} (${sqlParams.join(', ')}) VALUES ${placeholderArray.join(', ')}`;
+        const sqlQuery = `INSERT INTO ${this.table} (${sqlParams.join(', ')}) VALUES ( ${placeholderArray.join(', ')} )`;
+        console.log("\n\n\nSQLQUERY\n" + sqlQuery + "\n\n\n");
+        console.log(sqlValues);
 
         return this.pool.query(sqlQuery, sqlValues);
     }
