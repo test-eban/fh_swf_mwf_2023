@@ -23,7 +23,9 @@ export default {
         console.log(taskObject);
         let res = await axios.post("http://localhost:12040/tasks/insert", taskObject)
     },
-    // async setTaskState(taskId, previousState, targetState) {
-    //     let res = await axios.put
-    // }
+    async updateTask(taskId, taskObject) {
+        console.debug("createTask() called");
+        console.log(taskObject);
+        let res = await axios.post("http://localhost:12040/tasks/"+ taskId + "/update", taskObject)
+    },
 }

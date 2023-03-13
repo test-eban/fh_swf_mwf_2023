@@ -24,12 +24,6 @@ class Model {
         return this.pool.query(query);
     }
 
-    async update(columns) {
-        const query = `UPDATE ${this.table} SET ${columns}`;
-        this.setUpdatedOn(id);
-        return this.pool.query(query);
-    }
-
     async deleteById(id) {
         const query = `DELETE FROM ${this.table} WHERE id = ? `;
         return this.pool.query(query, id);
@@ -71,7 +65,7 @@ class Model {
         console.log("\n\n\nSQLQUERY\n" + sqlQuery + "\n\n\n");
         console.log(sqlValues);
 
-        return this.pool.query(sqlQuery, sqlValues);
+        return this.pool.query(sqlQuery, sqlValues).then(this.setUpdatedOn);
     }
 }
 

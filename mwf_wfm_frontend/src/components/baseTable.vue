@@ -2,7 +2,7 @@
   <v-data-table :headers="headers" :items="tasks" :sort-by="[{ key: 'label', order: 'asc' }]" class="elevation-1">
     <template v-slot:top>
       <v-toolbar flat>
-        <v-toolbar-title>My CRUD</v-toolbar-title>
+        <v-toolbar-title>Workforcemanagement</v-toolbar-title>
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
@@ -11,7 +11,7 @@
               Neue Aufgabe
             </v-btn>
           </template>
-          <v-card>
+          <v-card label:editForm>
             <v-card-title>
               <span class="text-h5">{{ formTitle }}</span>
             </v-card-title>
@@ -67,7 +67,7 @@
         </v-dialog>
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
-            <v-card-title class="text-h5">Sind Sie sicher, dass Sie diese Aufgabe löschen wollen??</v-card-title>
+            <v-card-title class="text-h5">Sind Sie sicher, dass Sie \ndiese Aufgabe löschen wollen??</v-card-title>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="blue-darken-1" variant="text" @click="closeDelete">Abbrechen</v-btn>
@@ -79,12 +79,21 @@
       </v-toolbar>
     </template>
     <template v-slot:item.actions="{ item }">
-      <v-icon size="small" class="me-2" @click="editItem(item.raw)">
-        mdi-pencil
-      </v-icon>
-      <v-icon size="small" @click="deleteItem(item.raw)">
-        mdi-delete
-      </v-icon>
+      <v-btn color="blue" size="small" class="me-2" @click="editItem(item.raw)">
+        Starten
+      </v-btn>
+      <v-btn color="green" size="small" class="me-2" @click="editItem(item.raw)">
+        Beenden
+      </v-btn>
+      <v-btn color="grey" size="small" class="me-2" @click="editItem(item.raw)">
+        Ändern
+      </v-btn>
+      <v-btn color="red" size="small" @click="deleteItem(item.raw)">
+        Löschen
+      </v-btn>
+      <v-btn :color="editedItem.status == 'started' ? 'green darken-1' : editedItem.status == 'finished' ? 'grey' : ''" :disabled="editedItem.status == 'finished'" @click="updateStatus(editedItem)">
+        {{ editedItem.status == 'started' ? 'Finish' : 'Start' }}
+      </v-btn>
     </template>
     <template v-slot:no-data>
       <v-btn color="primary" @click="initialize">
@@ -195,7 +204,7 @@ export default {
     items: {
       branches: [],
       taskTypes: [],
-    }
+    },
   }),
 
   computed: {
@@ -291,6 +300,18 @@ export default {
     },
 
     save() {
+      if (
+          this.editedItem.label === '' || this.editedItem.label == null ||
+          this.editedItem.description === '' || this.editedItem.description == null ||
+          this.editedItem.taskType === '' || this.editedItem.taskType == null ||
+          this.editedItem.branch === '' || this.editedItem.branch == null ||
+          this.editedItem.taskInstruction === '' || this.editedItem.taskInstruction == null ||
+          this.editedItem.startDate === '' || this.editedItem.startDate == null ||
+          this.editedItem.endDate === '' || this.editedItem.endDate == null 
+        ) {
+        alert('Alle Felder einer Aufgabe müssen ausgefüllt sein.');
+        return;
+      }
       let lTempObject = this.editedItem;
       lTempObject.startDate = moment(this.editedItem.startDate).format('YYYY-MM-DD hh:mm:ss') // moment.js
     
@@ -298,7 +319,7 @@ export default {
 
       if (this.editedIndex > -1) { // === updated object
         Object.assign(this.tasks[this.editedIndex], this.editedItem)
-        // TaskService.updateTask(this.editedItem);
+        TaskService.updateTask(this.editedItem.id, this.editedItem);
       } else { // === new object
         this.tasks.push(this.editedItem);
         TaskService.createTask(lTempObject);
