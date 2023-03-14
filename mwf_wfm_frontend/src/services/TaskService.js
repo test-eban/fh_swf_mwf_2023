@@ -20,12 +20,12 @@ export default {
     },
     async createTask(taskObject) {
         console.debug("createTask() called");
-        console.log(taskObject);
+        console.debug(taskObject);
         let res = await axios.post("http://localhost:12040/tasks/insert", taskObject)
     },
     async updateTask(taskId, taskObject) {
         console.debug("createTask() called");
-        console.log(taskObject);
+        console.debug(taskObject);
         let res = await axios.post("http://localhost:12040/tasks/"+ taskId + "/update", taskObject)
     },
 }

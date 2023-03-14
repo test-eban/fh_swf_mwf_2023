@@ -58,7 +58,6 @@ export const taskUpdateRecord = async (req, res) => {
         const escapedKey = pool.escapeId(key);
         sqlParams.push(`${escapedKey} = ?`);
         sqlValues.push(value);
-        // check if the ids are within the allowed-list that is specifically designed for each type each
     });
     try {
         let data = '';
@@ -79,8 +78,7 @@ export const taskInsertRecord = async (req, res) => {
     const sqlParams = [];
     const sqlValues = [];
 
-    console.log("1");
-    console.log(req.body);
+    console.debug(req.body);
     Object.entries(req.body).forEach(([key, value]) => {
         if (key !== 'id') { // filter out id
             const escapedKey = pool.escapeId(key);
