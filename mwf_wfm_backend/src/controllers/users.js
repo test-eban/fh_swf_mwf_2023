@@ -1,4 +1,5 @@
 import Model from '../models/model.js';
+// vorerst verwaist
 
 const messagesModel = new Model('users');
 export const messagesPage = async (req, res) => {

@@ -83,15 +83,12 @@ export const taskInsertRecord = async (req, res) => {
     console.log(req.body);
     Object.entries(req.body).forEach(([key, value]) => {
         if (key !== 'id') { // filter out id
-            console.log("inner foreach - if");
             const escapedKey = pool.escapeId(key);
             sqlParams.push(`${escapedKey}`);
             sqlValues.push(value);
         }
     });
     try {
-        console.log("inner try")
-        console.log("sqlValues" + sqlValues)
         let data = '';
         if (sqlValues.length > 0 && sqlParams !== undefined) {
             data = await taskModel.insertRecord(sqlParams, sqlValues);

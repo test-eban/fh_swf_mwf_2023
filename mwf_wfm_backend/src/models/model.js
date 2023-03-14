@@ -62,8 +62,8 @@ class Model {
             placeholderArray.push('?');
         }
         const sqlQuery = `INSERT INTO ${this.table} (${sqlParams.join(', ')}) VALUES ( ${placeholderArray.join(', ')} )`;
-        console.log("\n\n\nSQLQUERY\n" + sqlQuery + "\n\n\n");
-        console.log(sqlValues);
+        console.debug("\n\n\nSQLQUERY\n" + sqlQuery + "\n\n\n");
+        console.debug(sqlValues);
 
         return this.pool.query(sqlQuery, sqlValues).then(this.setUpdatedOn);
     }
