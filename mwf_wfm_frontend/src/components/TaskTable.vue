@@ -91,9 +91,6 @@
       <v-btn color="red" size="small" @click="deleteItem(item.raw)">
         Löschen
       </v-btn>
-      <v-btn :color="editedItem.status == 'started' ? 'green darken-1' : editedItem.status == 'finished' ? 'grey' : ''" :disabled="editedItem.status == 'finished'" @click="updateStatus(editedItem)">
-        {{ editedItem.status == 'started' ? 'Finish' : 'Start' }}
-      </v-btn>
     </template>
     <template v-slot:no-data>
       <v-btn color="primary" @click="initialize">
@@ -185,7 +182,7 @@ export default {
       taskInstruction: '',
       startDate: new Date(),
       endDate: new Date(),
-      status: 'planned',
+      status: 'created',
       createdBy: 'admin',
       updatedBy: 'admin',
     },
@@ -197,7 +194,7 @@ export default {
       taskInstruction: '',
       startDate: new Date(),
       endDate: new Date(),
-      status: 'planned',
+      status: 'created',
       createdBy: 'admin',
       updatedBy: 'admin',
     },

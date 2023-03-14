@@ -11,9 +11,9 @@
   </div>
 </template>
 <script>
-import TaskTable from '../components/baseTable.vue';
+import TaskTable from '../components/TaskTable.vue';
 export default {
-  name: 'home',
+  name: 'task',
   components: {
     TaskTable,
   },
