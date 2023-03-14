@@ -6,7 +6,7 @@
   "scripts": {
     "build": "babel ./src --out-dir build",
     "start": "node ./build/bin/www",
-    "startdev": "nodemon --exec babel-node ./src/bin/www",
+    "serve": "nodemon --exec babel-node ./src/bin/www",
     "lint": "./node_modules/.bin/eslint ./src",
     "runQuery": "babel-node ./src/util/runQuery.js"
   },

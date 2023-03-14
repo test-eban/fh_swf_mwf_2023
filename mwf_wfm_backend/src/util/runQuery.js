@@ -14,4 +14,6 @@ import {
     console.log('tables modified');
     await insertTables();
     console.log('tables filled');
+    console.log('\n\nSetup finished. Please press CTRL+C to end the execution.')
 })();
+
